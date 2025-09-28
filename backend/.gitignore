@@ -1,0 +1,6 @@
+# .gitignore
+# Dossiers et fichiers à ignorer
+venv/
+__pycache__/
+*.pyc
+.env

@@ -1,0 +1,21 @@
+{
+  // Ce fichier est requis par Nuxt 3 pour générer les fichiers de configuration TypeScript internes.
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ES2022",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "@nuxt/types",
+      "@nuxtjs/tailwindcss"
+    ]
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", ".nuxt", "dist"]
+}

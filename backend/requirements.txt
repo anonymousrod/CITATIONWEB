@@ -1,0 +1,9 @@
+# requirements.txt
+fastapi
+uvicorn
+playwright
+supabase
+pydantic
+pydantic-settings
+python-dotenv
+requests

@@ -1,0 +1,88 @@
+Le projet CitationsWeb est une application Full-Stack asynchrone conçue pour :
+
+Récupérer des données : Scraper des citations à partir de sources web définies (le Frontend transmet le sujet de recherche au Backend).
+
+Stocker et suivre : Gérer le statut du scraping en temps réel et stocker les données dans une base de données (probablement Supabase, d'après les imports supabase_client).
+
+Présenter les données : Offrir une interface utilisateur réactive pour lancer, arrêter et visualiser le statut du processus.
+
+Exporter les données : Permettre le téléchargement des citations collectées en formats JSON ou CSV.
+
+🏛️ Architecture Technique
+Le projet repose sur une architecture moderne de type "Client-Server" (ou API-Driven) :
+
+Composant	Technologie Principale	Rôle et Raison d'être
+Backend	Python (FastAPI) et Uvicorn	Gère la logique métier, les appels à la base de données, et surtout l'opération gourmande en I/O : le Scraping (via Playwright, implicitement). Raison : FastAPI est extrêmement rapide et conçu pour l'asynchronisme (asyncio), ce qui est idéal pour ne pas bloquer le serveur pendant les longues tâches de scraping.
+Frontend	Nuxt 3 (Vue 3)	Fournit l'interface utilisateur. Utilise des requêtes HTTP pour communiquer avec l'API.
+Dépendances Front	@nuxt/ui et Tailwind CSS	Assure un développement rapide, des composants réactifs et un design responsive sans écrire trop de CSS manuel.
+État Front	Pinia	Gestion de l'état global (statut de scraping, liste des citations) de manière simple et réactive.
+
+Exporter vers Sheets
+🛠️ Directives d'Installation et de Lancement (Local)
+Pour lancer le projet en local, il est impératif de démarrer le Backend avant le Frontend, car l'API du Backend est une dépendance critique du Frontend.
+
+Phase A : Installation du Backend (Dossier backend)
+Prérequis : Assurez-vous d'avoir Python (3.10 ou supérieur) et l'outil pip installés.
+
+Création de l'Environnement Virtuel (Venv)
+
+Bash
+
+# Crée un environnement isolé
+python -m venv venv 
+# Active l'environnement virtuel
+.\venv\Scripts\activate 
+Raison : Cette isolation garantit que les dépendances Python du projet ne contaminent pas les autres projets ou l'installation globale de Python.
+
+Installation des Dépendances Python
+
+Bash
+
+pip install -r requirements.txt
+Raison : Installe FastAPI, Uvicorn, Playwright, et tout autre outil de gestion de la BD ou de scraping.
+
+Configuration des Variables d'Environnement
+
+Assurez-vous qu'un fichier .env est présent à la racine du dossier backend.
+
+Ce fichier doit contenir au minimum les clés de connexion à Supabase (ou à votre BD), ainsi que l'hôte et le port de l'API (ex: API_HOST=0.0.0.0, API_PORT=8000).
+
+Raison : Séparer la configuration du code source (principes 12-Factor App).
+
+Lancement du Serveur Backend
+
+Bash
+
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+Raison : Le flag --reload permet de redémarrer automatiquement le serveur dès qu'une modification est apportée à un fichier Python, accélérant le développement.
+
+Phase B : Installation du Frontend (Dossier frontend)
+Prérequis : Assurez-vous d'avoir Node.js (LTS) et l'outil npm installés.
+
+Installation des Dépendances Node
+
+Bash
+
+# S'assurer que nous sommes dans le dossier frontend
+cd ..\frontend 
+npm install
+Raison : Télécharge Nuxt, Vue, les modules (@nuxt/ui, tailwind) et Pinia.
+
+Nettoyage du Cache Interne (Directive de Stabilité)
+
+En cas d'erreurs persistantes (comme le tsconfig.app.json manquant) :
+
+Bash
+
+# Nettoyage des fichiers de cache internes de Nuxt/Vite
+npx nuxi cleanup
+# Vider le cache global de npm pour être sûr
+npm cache clean --force
+Raison : Cette étape est la solution aux problèmes de corruption de cache que nous avons rencontrés. La reconstruction propre du dossier .nuxt est essentielle pour la stabilité de l'environnement de développement Nuxt.
+
+Lancement de l'Application Frontend
+
+Bash
+
+npm run dev
+Raison : Lance l'application en mode développement (Vite + HMR) et la rend accessible (probablement sur http://localhost:3000 ou 3001).

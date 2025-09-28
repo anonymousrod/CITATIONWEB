@@ -64,7 +64,18 @@ async def verifier_statut():
     return obtenir_statut()
 
 
-# --- 3. Point de Terminaison pour le Téléchargement ---
+# --- 3. Point de Terminaison pour les Données ---
+
+@app.get("/api/citations", response_model=List[CitationBD])
+async def get_citations():
+    """
+    Récupère toutes les citations de la base de données.
+    Retourne une liste vide si aucune citation n'est trouvée.
+    """
+    citations = recuperer_toutes_les_citations()
+    return citations
+
+# --- 4. Point de Terminaison pour le Téléchargement ---
 
 @app.get("/api/telecharger/{format}")
 async def telecharger_citations(format: str):

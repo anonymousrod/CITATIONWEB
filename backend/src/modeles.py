@@ -8,7 +8,7 @@ class SujetRecherche(BaseModel):
 
 # 2. Modèle pour les données stockées dans la BD (table 'quotes')
 class CitationBD(BaseModel):
-    id: int
+    id: Optional[int] = None
     # Noms des champs en français clair, pour la cohérence
     auteur_nom: str
     texte_citation: str

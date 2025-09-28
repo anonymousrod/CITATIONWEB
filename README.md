@@ -1,6 +1,7 @@
 # CitationsWeb - Scraper de Citations
 
 CitationsWeb est une application full-stack permettant de scraper des citations depuis des sites web, de les stocker et de les afficher via une interface web moderne.
+apercu.png
 
 - **Frontend** : Construit avec [Nuxt.js 3](https://nuxt.com/), offre une interface de contrôle réactive.
 - **Backend** : Construit avec [FastAPI](https://fastapi.tiangolo.com/) (Python), gère le scraping de manière asynchrone.
@@ -64,7 +65,7 @@ Le backend doit être lancé en premier pour que le frontend puisse communiquer 
 ### Étape 1 : Cloner le projet
 
 ```bash
-git clone <https://github.com/anonymousrod/CITATIONWE>
+git clone <https://github.com/anonymousrod/CITATIONWEB.git>
 cd CitationsWeb/backend
 ```
 

@@ -72,8 +72,8 @@ def inserer_citation(citation: CitationBD) -> bool:
         return False
         
     try:
-        # Convertir le modèle Pydantic en dictionnaire pour l'insertion SQL
-        data_a_inserer = citation.model_dump()
+        # Convertir le modèle Pydantic en dictionnaire, en excluant l'id pour l'auto-génération
+        data_a_inserer = citation.model_dump(exclude={'id'})
         
         # Insertion des données dans la table 'quotes'
         resultat = supabase.table('quotes').insert([data_a_inserer]).execute()

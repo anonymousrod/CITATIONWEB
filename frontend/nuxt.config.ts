@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   // Ajout des modules
   modules: ['@pinia/nuxt'],
+  css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
   
   // Configuration pour le fichier .env

@@ -1,227 +1,201 @@
-/* --- DEBUT: Amélioration du Design --- */
 
-/* --- Importation de la police Inter --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-/* --- Variables de Couleur (Palette Moderne) --- */
+/* Définition de la palette de couleurs pour un thème sombre */
 :root {
-    /* Mode Clair (Défaut) */
-    --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    
-    --color-bg: #f8f9fa; /* Fond très clair */
-    --color-bg-secondary: #ffffff; /* Fond des cartes */
-    
-    --color-text-primary: #212529; /* Texte principal (presque noir) */
-    --color-text-secondary: #6c757d; /* Texte secondaire (gris) */
-    --color-text-muted: #adb5bd; /* Texte discret */
-
-    --color-border: #dee2e6; /* Bordures */
-    --color-border-focus: #80bdff; /* Bordure au focus */
-
-    --color-primary: #007bff; /* Bleu primaire */
-    --color-primary-hover: #0056b3;
-    
-    --color-danger: #dc3545; /* Rouge pour erreurs/arrêt */
-    --color-danger-hover: #c82333;
-
-    --color-success: #28a745; /* Vert pour succès */
-    --color-warning: #ffc107; /* Jaune pour avertissement */
-    --color-info: #17a2b8; /* Bleu info */
-
+    --color-bg: #121212;
+    --color-bg-secondary: #1E1E1E;
+    --color-border: #2D2D2D;
+    --color-text-primary: #E0E0E0;
+    --color-text-secondary: #B3B3B3;
+    --color-text-muted: #757575;
+    --color-primary: #4A90E2;
+    --color-primary-hover: #63A4FF;
+    --color-red: #E53E3E;
+    --color-green: #48BB78;
+    --color-blue: #4299E1;
+    --color-yellow: #F6E05E;
+    --color-indigo: #667EEA;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* --- Mode Sombre --- */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-bg: #121212;
-        --color-bg-secondary: #1e1e1e;
-        
-        --color-text-primary: #e9ecef;
-        --color-text-secondary: #adb5bd;
-        --color-text-muted: #6c757d;
-
-        --color-border: #495057;
-        --color-border-focus: #007bff;
-
-        --color-primary: #0d6efd;
-        --color-primary-hover: #3d8bfd;
-    }
-}
-
-/* --- Reset et Typographie de Base --- */
+/* Styles de base */
 body {
-    font-family: var(--font-family-sans);
     background-color: var(--color-bg);
     color: var(--color-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2 {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 1.75rem;
+    margin-bottom: 16px;
+}
+
+p {
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Classes utilitaires de layout */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 24px;
 }
 
-h1, h2 {
-    font-weight: 700;
-    margin-top: 0;
-}
-
-h1 {
-    font-size: 2.5rem; /* 40px */
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
-}
-
-h2 {
-    font-size: 1.75rem; /* 28px */
-    margin-bottom: 20px;
-    color: var(--color-text-secondary);
-}
-
-p {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 24px;
-}
-
-/* --- Carte Principale --- */
 .card {
     background-color: var(--color-bg-secondary);
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
     border: 1px solid var(--color-border);
-    transition: box-shadow 0.2s ease-in-out;
-}
-.card:hover {
-    box-shadow: var(--shadow-lg);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 32px;
+    box-shadow: var(--shadow-md);
 }
 
-/* --- Utilitaires Flexbox --- */
 .flex-row {
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 24px;
-}
-.flex-grow { flex-grow: 1; }
-.flex-space-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-bottom: 16px;
 }
 
-/* --- Champs de Formulaire --- */
+.flex-grow {
+    flex-grow: 1;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mt-2 {
+    margin-top: 8px;
+}
+
+/* Styles pour les formulaires et boutons */
 .input-field {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    font-size: 1rem;
     background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
     color: var(--color-text-primary);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
-.input-field::placeholder {
-    color: var(--color-text-muted);
-}
+
 .input-field:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.5);
 }
+
 .input-field:disabled {
-    background-color: var(--color-bg-secondary);
+    background-color: #2a2a2a;
     cursor: not-allowed;
 }
 
-/* --- Boutons --- */
 .btn {
-    padding: 14px 24px;
+    padding: 12px 20px;
+    border: none;
     border-radius: 8px;
+    font-size: 1rem;
     font-weight: 600;
-    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: background-color 0.2s, transform 0.1s;
+    white-space: nowrap;
 }
+
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
+.btn:active {
+    transform: scale(0.98);
+}
+
 .btn-indigo {
-    background-color: var(--color-primary);
+    background-color: var(--color-indigo);
     color: white;
 }
 .btn-indigo:hover:not(:disabled) {
-    background-color: var(--color-primary-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    background-color: #7f92ff;
 }
 
 .btn-red {
-    background-color: var(--color-danger);
+    background-color: var(--color-red);
     color: white;
 }
 .btn-red:hover:not(:disabled) {
-    background-color: var(--color-danger-hover);
-    transform: translateY(-2px);
+    background-color: #ff6b6b;
 }
 
 .btn-gray {
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-secondary);
-    border-color: var(--color-border);
+    background-color: #3a3a3a;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
 }
 .btn-gray:hover:not(:disabled) {
-    background-color: var(--color-bg);
-    border-color: var(--color-text-muted);
-    color: var(--color-text-primary);
+    background-color: #4a4a4a;
 }
 
-/* --- Barre de Statut --- */
+/* Styles pour la barre de statut */
 .status-bar {
-    padding: 16px 20px;
     background-color: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 8px;
+    padding: 16px;
     margin-top: 24px;
 }
+
 .status-indicator {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    margin-right: 12px;
+    display: inline-block;
 }
+
 .text-status-title {
     font-weight: 500;
     color: var(--color-text-secondary);
-    margin: 0;
 }
+
 .text-status-value {
     font-weight: 700;
     color: var(--color-text-primary);
 }
 
-/* Couleurs de statut (utilisant les variables CSS) */
-.bg-blue-500 { background-color: var(--color-info); }
-.bg-green-500 { background-color: var(--color-success); }
-.bg-red-500 { background-color: var(--color-danger); }
-.bg-yellow-500 { background-color: var(--color-warning); }
-.bg-gray-500 { background-color: var(--color-text-muted); }
+/* Classes de couleur pour le statut */
+.bg-blue-500 { background-color: var(--color-blue); }
+.bg-green-500 { background-color: var(--color-green); }
+.bg-red-500 { background-color: var(--color-red); }
+.bg-yellow-500 { background-color: var(--color-yellow); }
+.bg-gray-500 { background-color: #4a4a4a; }
 
-/* --- FIN: Amélioration du Design --- */
+/* Classes de texte utilitaires */
+.text-sm { font-size: 0.875rem; }
+.text-gray-500 { color: var(--color-text-muted); }
+.italic { font-style: italic; }

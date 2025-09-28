@@ -66,21 +66,11 @@ Bash
 # S'assurer que nous sommes dans le dossier frontend
 cd ..\frontend 
 npm install
-Raison : Télécharge Nuxt, Vue, les modules (@nuxt/ui, tailwind) et Pinia.
 
 Nettoyage du Cache Interne (Directive de Stabilité)
 
-En cas d'erreurs persistantes (comme le tsconfig.app.json manquant) :
 
-Bash
 
-# Nettoyage des fichiers de cache internes de Nuxt/Vite
-npx nuxi cleanup
-# Vider le cache global de npm pour être sûr
-npm cache clean --force
-Raison : Cette étape est la solution aux problèmes de corruption de cache que nous avons rencontrés. La reconstruction propre du dossier .nuxt est essentielle pour la stabilité de l'environnement de développement Nuxt.
-
-Lancement de l'Application Frontend
 
 Bash
 

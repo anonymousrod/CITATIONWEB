@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // Ajout des modules
-  modules: ['@nuxtjs/@pinia/nuxt'],
+  modules: ['@pinia/nuxt'],
   devtools: { enabled: true },
   
   // Configuration pour le fichier .env

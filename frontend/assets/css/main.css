@@ -1,141 +1,227 @@
-/* --- Base Reset and Typography --- */
+/* --- DEBUT: Amélioration du Design --- */
+
+/* --- Importation de la police Inter --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* --- Variables de Couleur (Palette Moderne) --- */
+:root {
+    /* Mode Clair (Défaut) */
+    --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    --color-bg: #f8f9fa; /* Fond très clair */
+    --color-bg-secondary: #ffffff; /* Fond des cartes */
+    
+    --color-text-primary: #212529; /* Texte principal (presque noir) */
+    --color-text-secondary: #6c757d; /* Texte secondaire (gris) */
+    --color-text-muted: #adb5bd; /* Texte discret */
+
+    --color-border: #dee2e6; /* Bordures */
+    --color-border-focus: #80bdff; /* Bordure au focus */
+
+    --color-primary: #007bff; /* Bleu primaire */
+    --color-primary-hover: #0056b3;
+    
+    --color-danger: #dc3545; /* Rouge pour erreurs/arrêt */
+    --color-danger-hover: #c82333;
+
+    --color-success: #28a745; /* Vert pour succès */
+    --color-warning: #ffc107; /* Jaune pour avertissement */
+    --color-info: #17a2b8; /* Bleu info */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Mode Sombre --- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #121212;
+        --color-bg-secondary: #1e1e1e;
+        
+        --color-text-primary: #e9ecef;
+        --color-text-secondary: #adb5bd;
+        --color-text-muted: #6c757d;
+
+        --color-border: #495057;
+        --color-border-focus: #007bff;
+
+        --color-primary: #0d6efd;
+        --color-primary-hover: #3d8bfd;
+    }
+}
+
+/* --- Reset et Typographie de Base --- */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f9;
+    font-family: var(--font-family-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 16px; /* 32px padding vertical, 16px horizontal */
+    padding: 40px 24px;
 }
+
+h1, h2 {
+    font-weight: 700;
+    margin-top: 0;
+}
+
 h1 {
-    font-size: 2.25rem; /* 36px */
-    font-weight: 800;
-    color: #1f2937;
-    margin-bottom: 8px;
-}
-h2 {
-    font-size: 1.5rem; /* 24px */
-    font-weight: 600;
-    color: #1f2937;
+    font-size: 2.5rem; /* 40px */
     margin-bottom: 16px;
+    letter-spacing: -0.5px;
 }
+
+h2 {
+    font-size: 1.75rem; /* 28px */
+    margin-bottom: 20px;
+    color: var(--color-text-secondary);
+}
+
 p {
-    font-size: 1.125rem; /* 18px */
-    color: #4b5563;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
     margin-bottom: 24px;
 }
 
-/* --- Card et Conteneurs --- */
+/* --- Carte Principale --- */
 .card {
-    background-color: white;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-top: 4px solid #4f46e5; /* Indigo */
+    background-color: var(--color-bg-secondary);
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: box-shadow 0.2s ease-in-out;
+}
+.card:hover {
+    box-shadow: var(--shadow-lg);
 }
 
-/* --- Flexbox et Alignement --- */
+/* --- Utilitaires Flexbox --- */
 .flex-row {
     display: flex;
     align-items: center;
-    gap: 16px; /* Espace entre les éléments */
+    gap: 16px;
     margin-bottom: 24px;
 }
-.flex-grow {
-    flex-grow: 1;
-}
+.flex-grow { flex-grow: 1; }
 .flex-space-between {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-/* --- Formulaires et Entrées --- */
+/* --- Champs de Formulaire --- */
 .input-field {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
     font-size: 1rem;
-    box-sizing: border-box; /* Inclut padding et border dans la largeur */
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-field::placeholder {
+    color: var(--color-text-muted);
 }
 .input-field:focus {
-    border-color: #4f46e5;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 .input-field:disabled {
-    background-color: #e5e7eb;
-}
-
-/* --- Boutons (Basique) --- */
-.btn {
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.15s ease;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-.btn:disabled {
-    opacity: 0.6;
+    background-color: var(--color-bg-secondary);
     cursor: not-allowed;
 }
 
-/* Couleurs des Boutons */
+/* --- Boutons --- */
+.btn {
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .btn-indigo {
-    background-color: #4f46e5;
+    background-color: var(--color-primary);
     color: white;
 }
 .btn-indigo:hover:not(:disabled) {
-    background-color: #4338ca;
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
+
 .btn-red {
-    background-color: #ef4444;
+    background-color: var(--color-danger);
     color: white;
 }
 .btn-red:hover:not(:disabled) {
-    background-color: #dc2626;
-}
-.btn-gray {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
-}
-.btn-gray:hover:not(:disabled) {
-    background-color: #e5e7eb;
+    background-color: var(--color-danger-hover);
+    transform: translateY(-2px);
 }
 
-/* --- Composant de Statut --- */
+.btn-gray {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+}
+.btn-gray:hover:not(:disabled) {
+    background-color: var(--color-bg);
+    border-color: var(--color-text-muted);
+    color: var(--color-text-primary);
+}
+
+/* --- Barre de Statut --- */
 .status-bar {
-    padding: 16px;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
+    padding: 16px 20px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-top: 24px;
 }
 .status-indicator {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
+    margin-right: 12px;
 }
 .text-status-title {
     font-weight: 500;
-    color: #4b5563;
+    color: var(--color-text-secondary);
+    margin: 0;
 }
 .text-status-value {
     font-weight: 700;
-    color: #4f46e5;
+    color: var(--color-text-primary);
 }
 
-/* Couleurs de statut */
-.bg-blue-500 { background-color: #3b82f6; }
-.bg-green-500 { background-color: #22c55e; }
-.bg-red-500 { background-color: #ef4444; }
-.bg-yellow-500 { background-color: #f59e0b; }
-.bg-gray-500 { background-color: #6b7280; }
+/* Couleurs de statut (utilisant les variables CSS) */
+.bg-blue-500 { background-color: var(--color-info); }
+.bg-green-500 { background-color: var(--color-success); }
+.bg-red-500 { background-color: var(--color-danger); }
+.bg-yellow-500 { background-color: var(--color-warning); }
+.bg-gray-500 { background-color: var(--color-text-muted); }
+
+/* --- FIN: Amélioration du Design --- */

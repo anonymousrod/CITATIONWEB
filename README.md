@@ -1,139 +1,161 @@
-🏛️ Rôle de l'Application et Architecture
-CitationsWeb est divisé en deux composants principaux, chacun avec une mission claire :
+# CitationsWeb - Scraper de Citations
 
-🧠 1. Le Cerveau (Backend - FastAPI)
-Le Backend, développé avec FastAPI (Python), est le moteur de l'application. Son rôle est de gérer la complexité et les opérations gourmandes en temps :
+CitationsWeb est une application full-stack permettant de scraper des citations depuis des sites web, de les stocker et de les afficher via une interface web moderne.
 
-Orchestration Asynchrone : Utilise asyncio pour lancer et surveiller la tâche de scraping (via un outil comme Playwright). Cela permet au serveur de répondre immédiatement aux requêtes du Frontend (comme les mises à jour de statut) même si le scraping dure plusieurs minutes.
-
-Logique Métier : Il reçoit le sujet de recherche du client, gère la navigation, l'extraction des données brutes et leur nettoyage.
-
-Persistance et Statut : Responsable du stockage des citations collectées dans la base de données (ex: Supabase) et du maintien d'un statut global unique accessible en temps réel.
-
-Export : Génération des fichiers CSV et JSON demandés.
-
-💻 2. L'Interface (Frontend - Nuxt/Vue)
-Le Frontend est la console de contrôle interactive construite avec Nuxt 3 (Vue). Il sert d'interface entre l'utilisateur et le moteur asynchrone :
-
-Contrôle Utilisateur : Permet à l'utilisateur de démarrer et d'arrêter la tâche de scraping en envoyant des requêtes POST au Backend.
-
-Polling de Statut : Il effectue des requêtes courtes et fréquentes (GET /api/statut) pour mettre à jour l'état de la tâche (Inactif, En cours, Terminé) et afficher le nombre d'éléments traités.
-
-Visualisation des Résultats : Affichage des citations collectées dans un tableau dynamique.
-
-🧪 Tests d'API Cruciaux pour la Stabilité
-Avant tout déploiement, ces endpoints doivent être testés rigoureusement pour garantir le comportement asynchrone attendu.
-
-Endpoint
-
-Méthode
-
-Objectif du Test
-
-Réussite Attendue
-
-/api/lancer
-
-POST
-
-Vérifier le lancement du processus asynchrone.
-
-Réponse immédiate du serveur (statut 202 Accepted ou 200 OK) confirmant que la tâche est en cours de démarrage, sans attendre la fin du scraping.
-
-/api/statut
-
-GET
-
-Tester le mécanisme de polling et la mise à jour des données.
-
-Le statut_global doit passer à "En cours". Le elements_traites doit s'incrémenter au fil du temps.
-
-/api/arreter
-
-POST
-
-Confirmer la capacité du système à stopper une tâche longue.
-
-Le statut_global doit passer à "Arrêté". Le scraping en arrière-plan doit cesser.
-
-/api/citations
-
-GET
-
-Vérifier l'accès aux données stockées.
-
-Retourne un tableau JSON contenant les objets Citation correctement formatés (avec auteur_nom, texte_citation, etc.).
-
-/api/telecharger/csv
-
-GET
-
-Confirmer l'exportation des données.
-
-Déclenche le téléchargement d'un fichier CSV contenant toutes les citations.
-
-⚙️ Directives de Lancement Local (Rappel Essentiel)
-Pour garantir que le Frontend et le Backend se synchronisent correctement :
-
-Démarrer le Backend en premier (FastAPI) pour qu'il soit joignable.
-cd C:\Users\FHB\Documents\CitationsWeb
-
-### Étape 2 : Création de l'Environnement Virtuel
-
-Créez et activez un environnement virtuel nommé `venv`.
-
-```powershell
-# 1. Crée l'environnement virtuel
-python -m venv venv
-
-# 2. Active l'environnement virtuel (pour PowerShell)
-.\venv\Scripts\Activate.ps1
-
-# Si vous utilisez un terminal standard (cmd) ou Bash :
-# .\venv\Scripts\activate
-
-Une fois activé, vous verrez **`(venv)`** au début de votre ligne de commande.
-
-### Étape 3 : Installation des Dépendances Python
-
-Utilisez le fichier `requirements.txt` pour installer tous les paquets en une seule commande :
-
-```powershell
-pip install -r requirements.txt
-
-### Étape 4 : Installation des Navigateurs pour Playwright
-
-Playwright a besoin d'installer les navigateurs qu'il utilisera pour le scraping (Chromium, Firefox, WebKit).
-
-```powershell
-playwright install
-
-### Étape 5 : Lancement du Serveur FastAPI (Uvicorn)
-
-Une fois tout est installé, vous pouvez démarrer le serveur. Assurez-vous que votre fichier principal FastAPI est nommé **`main.py`** et que l'objet principal de l'application est nommé **`app`**.
-
-```powershell
-# Démarre le serveur Uvicorn sur localhost:8000 avec rechargement automatique
-uvicorn main:app --reload
-
-Vous devriez voir un message confirmant que le serveur tourne :
-
-Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-
-Votre Backend est maintenant opérationnel à **`http://localhost:8000`** et prêt à communiquer avec le Frontend Nuxt !
+- **Frontend** : Construit avec [Nuxt.js 3](https://nuxt.com/), offre une interface de contrôle réactive.
+- **Backend** : Construit avec [FastAPI](https://fastapi.tiangolo.com/) (Python), gère le scraping de manière asynchrone.
+- **Base de données** : Utilise [Supabase](https://supabase.com/) pour le stockage des données (PostgreSQL) et des images (Storage).
 
 ---
 
-### Vérification Finale
+## 1. Prérequis
 
-Pour confirmer que le Backend est accessible :
+Assurez-vous d'avoir les outils suivants installés sur votre machine :
+- [Python](https://www.python.org/downloads/) (version 3.8 ou supérieure)
+- [Node.js](https://nodejs.org/en/) (version 18.x ou supérieure)
+- [Git](https://git-scm.com/downloads/)
 
-1.  Ouvrez votre navigateur.
-2.  Allez à l'adresse des outils de documentation automatiques de FastAPI : **`http://localhost:8000/docs`**.
+---
 
-Si vous voyez l'interface Swagger de FastAPI, votre Backend est parfaitement configuré. Vous pouvez alors lancer le Frontend avec `npm run dev`.
-Démarrer le Frontend en second (Nuxt) via npm run dev.
+## 2. Configuration de Supabase
 
+Le projet nécessite un projet Supabase pour fonctionner.
 
+### Étape 1 : Créer un projet Supabase
 
-Important : Si vous rencontrez des problèmes de compilation Nuxt, supprimez toujours les dossiers .nuxt, node_modules et package-lock.json avant de lancer un npm install pour garantir une reconstitution propre de l'environnement.
+1.  Rendez-vous sur [supabase.com](https://supabase.com/) et créez un nouveau projet.
+2.  Conservez bien les informations de votre projet, notamment l'URL et les clés d'API.
+
+### Étape 2 : Créer la table `quotes`
+
+1.  Dans le tableau de bord de votre projet Supabase, allez dans l'éditeur SQL (`SQL Editor`).
+2.  Cliquez sur `+ New query`.
+3.  Copiez-collez le script SQL ci-dessous et exécutez-le pour créer la table `quotes` avec les bonnes colonnes et contraintes.
+
+```sql
+CREATE TABLE public.quotes (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    auteur_nom TEXT NOT NULL,
+    texte_citation TEXT NOT NULL,
+    lien_citation TEXT,
+    url_image TEXT,
+    sujet TEXT
+);
+
+-- Optionnel : Activer la sécurité au niveau des lignes (RLS) si vous prévoyez un accès public
+ALTER TABLE public.quotes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public quotes are viewable by everyone." ON public.quotes FOR SELECT USING (true);
+```
+
+### Étape 3 : Créer un Bucket de Stockage
+
+1.  Dans le menu de gauche, allez dans `Storage`.
+2.  Cliquez sur `Create a new bucket`.
+3.  Nommez votre bucket (par exemple, `quote-images`). **Important :** Cochez la case `This bucket is public`.
+4.  Notez le nom du bucket que vous avez choisi.
+
+---
+
+## 3. Installation et Lancement du Backend
+
+Le backend doit être lancé en premier pour que le frontend puisse communiquer avec lui.
+
+### Étape 1 : Cloner le projet
+
+```bash
+git clone <https://github.com/anonymousrod/CITATIONWE>
+cd CitationsWeb/backend
+```
+
+### Étape 2 : Configurer l'environnement
+
+1.  **Créez un environnement virtuel** pour isoler les dépendances Python :
+    ```bash
+    python -m venv venv
+    ```
+2.  **Activez l'environnement** :
+    -   Sur Windows (PowerShell) : `.\venv\Scripts\Activate.ps1`
+    -   Sur macOS/Linux : `source venv/bin/activate`
+
+### Étape 3 : Créer le fichier `.env`
+
+1.  À la racine du dossier `backend`, créez un fichier nommé `.env`.
+2.  Remplissez-le avec les informations de votre projet Supabase :
+
+```env
+# .env du Backend
+
+# URL du projet Supabase (API > Project URL)
+SUPABASE_URL="https://xxxxxxxxxxxx.supabase.co"
+
+# Clé de service du projet Supabase (API > Project API Keys > service_role)
+SUPABASE_SERVICE_KEY anon ="ey...xxx"
+
+# Nom du bucket de stockage que vous avez créé
+NOM_BUCKET_IMAGES="quote-images"
+
+# Configuration de l'API (optionnel, valeurs par défaut)
+API_HOST="127.0.0.1"
+API_PORT=8000
+```
+
+### Étape 4 : Installer les dépendances
+
+```bash
+pip install -r requirements.txt
+playwright install
+```
+
+### Étape 5 : Lancer le serveur Backend
+
+```bash
+uvicorn main:app --reload
+```
+Le backend est maintenant accessible à l'adresse `http://127.0.0.1:8000`. Vous pouvez vérifier son état en visitant `http://127.0.0.1:8000/docs`.
+
+---
+
+## 4. Installation et Lancement du Frontend
+
+### Étape 1 : Se déplacer dans le dossier frontend
+
+Ouvrez un **nouveau terminal** et placez-vous dans le dossier `frontend`.
+
+```bash
+cd ../frontend
+```
+
+### Étape 2 : Créer le fichier `.env`
+
+1.  À la racine du dossier `frontend`, créez un fichier nommé `.env`.
+2.  Remplissez-le avec l'URL de votre API backend.
+
+```env
+# .env du Frontend
+
+# Doit correspondre à l'URL où votre backend tourne
+NUXT_PUBLIC_BACKEND_URL="http://127.0.0.1:8000"
+```
+
+### Étape 3 : Installer les dépendances
+
+```bash
+npm install
+```
+
+### Étape 4 : Lancer le serveur Frontend
+
+```bash
+npm run dev
+```
+L'application est maintenant accessible dans votre navigateur à l'adresse `http://localhost:3000`.
+
+---
+
+## 5. Utilisation
+
+1.  Ouvrez `http://localhost:3000`.
+2.  Entrez un sujet de citation (ex: `life`, `funny`, `love`,,,,,,,,).
+3.  Cliquez sur "Lancer le Scraping".
+4.  Le statut de l'opération s'affichera, et les citations apparaîtront dans le tableau une fois le scraping terminé./rafraichir si necessaire/

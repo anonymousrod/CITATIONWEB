@@ -76,7 +76,64 @@ Déclenche le téléchargement d'un fichier CSV contenant toutes les citations.
 Pour garantir que le Frontend et le Backend se synchronisent correctement :
 
 Démarrer le Backend en premier (FastAPI) pour qu'il soit joignable.
+cd C:\Users\FHB\Documents\CitationsWeb
 
+### Étape 2 : Création de l'Environnement Virtuel
+
+Créez et activez un environnement virtuel nommé `venv`.
+
+```powershell
+# 1. Crée l'environnement virtuel
+python -m venv venv
+
+# 2. Active l'environnement virtuel (pour PowerShell)
+.\venv\Scripts\Activate.ps1
+
+# Si vous utilisez un terminal standard (cmd) ou Bash :
+# .\venv\Scripts\activate
+
+Une fois activé, vous verrez **`(venv)`** au début de votre ligne de commande.
+
+### Étape 3 : Installation des Dépendances Python
+
+Utilisez le fichier `requirements.txt` pour installer tous les paquets en une seule commande :
+
+```powershell
+pip install -r requirements.txt
+
+### Étape 4 : Installation des Navigateurs pour Playwright
+
+Playwright a besoin d'installer les navigateurs qu'il utilisera pour le scraping (Chromium, Firefox, WebKit).
+
+```powershell
+playwright install
+
+### Étape 5 : Lancement du Serveur FastAPI (Uvicorn)
+
+Une fois tout est installé, vous pouvez démarrer le serveur. Assurez-vous que votre fichier principal FastAPI est nommé **`main.py`** et que l'objet principal de l'application est nommé **`app`**.
+
+```powershell
+# Démarre le serveur Uvicorn sur localhost:8000 avec rechargement automatique
+uvicorn main:app --reload
+
+Vous devriez voir un message confirmant que le serveur tourne :
+
+Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+
+Votre Backend est maintenant opérationnel à **`http://localhost:8000`** et prêt à communiquer avec le Frontend Nuxt !
+
+---
+
+### Vérification Finale
+
+Pour confirmer que le Backend est accessible :
+
+1.  Ouvrez votre navigateur.
+2.  Allez à l'adresse des outils de documentation automatiques de FastAPI : **`http://localhost:8000/docs`**.
+
+Si vous voyez l'interface Swagger de FastAPI, votre Backend est parfaitement configuré. Vous pouvez alors lancer le Frontend avec `npm run dev`.
 Démarrer le Frontend en second (Nuxt) via npm run dev.
+
+
 
 Important : Si vous rencontrez des problèmes de compilation Nuxt, supprimez toujours les dossiers .nuxt, node_modules et package-lock.json avant de lancer un npm install pour garantir une reconstitution propre de l'environnement.

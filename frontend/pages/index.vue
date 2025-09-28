@@ -49,12 +49,14 @@ const stopPolling = () => {
 };
 
 // Démarre le polling et charge les données existantes au montage
-onMounted(() => {
-    // Tente de commencer le polling si le backend indique un statut "En cours" après le chargement
+onMounted(async () => {
+    await store.verifierStatut(); // On récupère le statut réel du backend
+    store.chargerCitations(); // On charge les citations
+
+    // Si le statut est "En cours", on démarre le polling
     if (store.statut.statut_global === 'En cours') {
         startPolling();
     }
-    store.chargerCitations(); 
 });
 
 // Arrête le polling lorsque le composant est détruit

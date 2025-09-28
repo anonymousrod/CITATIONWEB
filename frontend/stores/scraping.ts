@@ -71,7 +71,7 @@ export const useScrapingStore = defineStore('scraping', () => {
       statut.value = data
     } catch (error) {
       // Ignorer les erreurs de statut pour garder l'interface fluide
-      // console.error('Erreur lors de la vérification du statut:', error)
+      console.error('Erreur lors de la vérification du statut:', error)
     }
   }
 
